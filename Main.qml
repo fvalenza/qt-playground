@@ -33,29 +33,6 @@ ApplicationWindow {
         }
     }
 
-    // header: ToolBar {
-    //     ToolButton {
-    //         text: qsTr("tools")
-    //     }
-    // }
-
-    // footer: TabBar {
-    //     id: footerTabBar
-    //     width: parent.width
-    //     TabButton {
-    //         text: "Tab 1"
-    //         onClicked: stackView.push(tab1Content)
-    //     }
-    //     TabButton {
-    //         text: "Tab 2"
-    //         onClicked: stackView.push(tab2Content)
-    //     }
-    //     TabButton {
-    //         text: "Tab 3"
-    //         onClicked: stackView.push(tab3Content)
-    //     }
-    // }
-
     Column {
         id: centralArea
         anchors.fill: parent
@@ -83,6 +60,10 @@ ApplicationWindow {
                 text: "Tab 4"
                 onClicked: stackView.push(tab4Content)
             }
+            TabButton {
+                text: "Input Page"
+                onClicked: stackView.push(identityPage)
+            }
         }
 
         StackView {
@@ -95,54 +76,44 @@ ApplicationWindow {
 
     Component {
         id: tab1Content
-        Rectangle {
-            width: parent.width
-            height: parent.height
+        DefaultPage {
             color: "lightblue"
-            Text {
-                anchors.centerIn: parent
-                text: "Content for Tab 1"
-            }
+            defaultPageText: "Content for Tab 1"
         }
     }
 
     Component {
         id: tab2Content
-        Rectangle {
-            width: parent.width
-            height: parent.height
+        DefaultPage {
             color: "lightgreen"
-            Text {
-                anchors.centerIn: parent
-                text: "Content for Tab 2"
-            }
+            defaultPageText: "Content for Tab 2"
         }
     }
 
     Component {
         id: tab3Content
-        Rectangle {
-            width: parent.width
-            height: parent.height
+        DefaultPage {
             color: "lightcoral"
-            Text {
-                anchors.centerIn: parent
-                text: "Content for Tab 3"
-            }
+            defaultPageText: "Content for Tab 3"
         }
     }
 
     Component {
         id: tab4Content
-        Rectangle {
-            width: parent.width
-            height: parent.height
+        DefaultPage {
             color: "darkred"
-            Text {
-                anchors.centerIn: parent
-                text: "Content for Tab 4"
-            }
+            // defaultPageText: "Content for Tab 4"
         }
     }
+
+    Component {
+        id: identityPage
+        IdentityPage {}
+        // Either use the line above or the Loader. TODO : learn the difference
+        // Loader {
+        //     source: "IdentityPage.qml"
+        // }
+    }
+
 }
 
