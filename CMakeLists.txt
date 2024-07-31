@@ -19,6 +19,11 @@ qt_add_qml_module(appgetting-started
         Main.qml
         QML_FILES DefaultPage.qml
         QML_FILES IdentityPage.qml
+        QML_FILES DatabasePage.qml
+        QML_FILES ListViewPage.qml
+        SOURCES ListModel.hpp
+        QML_FILES SimpleListViewPage.qml
+        QML_FILES MyTabBar.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

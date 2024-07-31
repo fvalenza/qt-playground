@@ -37,40 +37,35 @@ ApplicationWindow {
         id: centralArea
         anchors.fill: parent
 
-        TabBar {
-            id: cenralAreatabBar
-            width: parent.width
-            background: Rectangle {
-                color: "gray"
-            }
 
-            TabButton {
-                text: "Tab 1"
-                onClicked: stackView.push(tab1Content)
-            }
-            TabButton {
-                text: "Tab 2"
-                onClicked: stackView.push(tab2Content)
-            }
-            TabButton {
-                text: "Tab 3"
-                onClicked: stackView.push(tab3Content)
-            }
-            TabButton {
-                text: "Tab 4"
-                onClicked: stackView.push(tab4Content)
-            }
-            TabButton {
-                text: "Input Page"
-                onClicked: stackView.push(identityPage)
-            }
-        }
+
+
 
         StackView {
             id: stackView
             anchors.fill: parent
-            anchors.topMargin: cenralAreatabBar.height
+            anchors.top: customTabBar.bottom
+            anchors.topMargin: customTabBar.height
             initialItem: tab1Content
+        }
+        MyTabBar {
+            id: customTabBar
+            // maxTabsPerLine: 3
+            width: parent.width
+            tabs: ["Tab 1", "Tab 2", "Tab 3", "Tab 4", "Input Page", "Database Page", "SimpleListView Page", "C++ provided ListView Page"]
+
+            onTabClicked: {
+                switch (index) {
+                    case 0: stackView.push(tab1Content); break
+                    case 1: stackView.push(tab2Content); break
+                    case 2: stackView.push(tab3Content); break
+                    case 3: stackView.push(tab4Content); break
+                    case 4: stackView.push(identityPage); break
+                    case 5: stackView.push(databasePage); break
+                    case 6: stackView.push(simplelistviewPage); break
+                    case 7: stackView.push(listviewPage); break
+                }
+            }
         }
     }
 
@@ -113,6 +108,31 @@ ApplicationWindow {
         // Loader {
         //     source: "IdentityPage.qml"
         // }
+    }
+
+    Component {
+        id: databasePage
+        DatabasePage {}
+    }
+
+    Component {
+        id: simplelistviewPage
+        SimpleListViewPage {
+            itemList: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"]
+        }
+    }
+
+    ListModel {
+        id: listmodelID
+    }
+
+    Component {
+        id: listviewPage
+        ListViewPage {
+            model: listModel
+            // itemList: listmodelID.items
+            // itemList: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"]
+        }
     }
 
 }
