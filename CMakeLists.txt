@@ -4,7 +4,7 @@ project(getting-started VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.4 REQUIRED COMPONENTS Quick)
+find_package(Qt6 6.4 REQUIRED COMPONENTS Quick Sql)
 
 qt_standard_project_setup()
 
@@ -24,6 +24,9 @@ qt_add_qml_module(appgetting-started
         SOURCES ListModel.hpp
         QML_FILES SimpleListViewPage.qml
         QML_FILES MyTabBar.qml
+        SOURCES sqlquerymodelbourrin.h
+        SOURCES DbConnection.hpp
+        QML_FILES MyTabbedPages.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
@@ -38,7 +41,7 @@ set_target_properties(appgetting-started PROPERTIES
 )
 
 target_link_libraries(appgetting-started
-    PRIVATE Qt6::Quick
+    PRIVATE Qt6::Quick Qt6::Sql
 )
 
 include(GNUInstallDirs)
