@@ -1,88 +1,74 @@
-import QtQuick
-import QtQuick.Controls
+import QtQuick 2.15
+import QtQuick.Controls 2.15
 
 Rectangle {
     id: root
-    width: parent.width
-    height: parent.height
+    width: 800
+    height: 600
     color: "white"
 
-    property var model: null
+    property var model: companyModel  // Ensure this is correctly set in C++ side
 
-    TableView {
-        anchors.fill: parent
-        columnSpacing: 1
-        rowSpacing: 1
-        clip: true
-        id: tableView
+    // Header row
+    Row {
+        id: columnsHeader
+        width: root.width  // Ensure the header row spans the entire width
+        height: 50
+        spacing: 1
 
-        model: root.model
+        Repeater {
+            model: root.model ? root.model.columnCount() : 0
 
-        // Row {
-        //     id: columnsHeader
-        //     y: tableView.contentY
-        //     Repeater {
-        //         Text {
-        //             text: modelDisplay
-        //         }
+            Rectangle {
+                width: 100  // Set appropriate width for each column
+                height: 50
+                border.width: 1
+                border.color: "black"
+                color: "lightblue"
 
-
-        //     }
-        // }
-
-        delegate: Rectangle {
-            implicitWidth: 100
-            implicitHeight: 50
-            border.width: 1
-            border.color: "black"
-            color: index % 2 == 0 ? "lightgray" : "white"
-
-            Text {
-                text: NAME
-                anchors.centerIn: parent
+                Text {
+                    text: root.model ? root.model.headerData(index, Qt.Horizontal) : ""
+                    anchors.centerIn: parent
+                }
             }
-            // Text {
-            //     text: model.NAME
-            //     anchors.centerIn: parent
-            // }
         }
     }
 
-    // ListView {
-    //     id: listView
-    //     anchors.fill: parent
-    //     model: root.model
+    // TableView positioned below the header
+    TableView {
+        id: tableview
+        width: root.width
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: columnsHeader.bottom
+        anchors.bottom: parent.bottom
+        columnSpacing: 1
+        rowSpacing: 1
+        clip: true
 
-    //     delegate: Item {
-    //         width: listView.width
-    //         height: 40
+        model: root.model
 
-    //         Rectangle {
-    //             width: parent.width
-    //             height: parent.height
-    //             color: index % 2 == 0 ? "lightgray" : "white"
-    //             Text {
-    //                 id: identry
-    //                 text: model.ID
-    //                 anchors.left: parent.left
-    //             }
-    //             Text {
-    //                 id: nameentry
-    //                 text: model.NAME
-    //                 anchors.left: identry.right
-    //             }
-    //             Text {
-    //                 id: ageentry
-    //                 text: model.AGE
-    //                 anchors.left: nameentry.right
-    //             }
-    //             Text {
-    //                 id: salaryentry
-    //                 text: model.SALARY
-    //                 anchors.left: ageentry.right
-    //             }
-    //         }
-    //     }
-    // }
+        delegate: Rectangle {
+            // width: 100  // Ensure this width matches the column width in the header
+            height: 50
+            border.width: 1
+            border.color: "black"
+            color: (index % 2 === 0) ? "lightgray" : "white"
+
+            Text {
+                text: {
+                    if (!root.model) return "";  // Check if the model is null
+                    // Access model data using roles
+                    switch (column) {
+                        case 0: return model.ID;      // Adjust role names according to your model
+                        case 1: return model.NAME;
+                        case 2: return model.AGE;
+                        case 3: return model.SALARY;
+                        default: return "";
+                    }
+                }
+                anchors.centerIn: parent
+            }
+        }
+    }
 }
-
