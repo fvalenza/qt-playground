@@ -43,6 +43,10 @@ public:
                 }
 
             }
+            this->setHeaderData(0, Qt::Horizontal, tr("ID"));
+            this->setHeaderData(1, Qt::Horizontal, tr("Name"));
+            this->setHeaderData(2, Qt::Horizontal, tr("Age"));
+            this->setHeaderData(3, Qt::Horizontal, tr("Salary"));
 
 
         }
