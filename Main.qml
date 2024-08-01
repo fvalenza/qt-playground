@@ -1,6 +1,7 @@
 //import related modules
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
 
 //window containing the application.
 // An Application window is a certain type of Window with already provided zones menuBar, header, footer
@@ -33,107 +34,80 @@ ApplicationWindow {
         }
     }
 
-    Column {
+
+    ColumnLayout {
         id: centralArea
         anchors.fill: parent
+        spacing: 1
 
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.preferredHeight: parent.height * 0.10
 
+            MyTabBar {
+                id: customTabBar
+                width: parent.width
+                height: implicitHeight
+                Layout.fillWidth: true
+                tabs: ["Tab 1", "Tab 2", "Tab 3", "Tab 4", "Input Page", "Database Page", "SimpleListView Page", "C++ provided ListView Page"]
 
-
-
-        StackView {
-            id: stackView
-            anchors.fill: parent
-            anchors.top: customTabBar.bottom
-            anchors.topMargin: customTabBar.height
-            initialItem: tab1Content
-        }
-        MyTabBar {
-            id: customTabBar
-            // maxTabsPerLine: 3
-            width: parent.width
-            tabs: ["Tab 1", "Tab 2", "Tab 3", "Tab 4", "Input Page", "Database Page", "SimpleListView Page", "C++ provided ListView Page"]
-
-            onTabClicked: {
-                switch (index) {
-                    case 0: stackView.push(tab1Content); break
-                    case 1: stackView.push(tab2Content); break
-                    case 2: stackView.push(tab3Content); break
-                    case 3: stackView.push(tab4Content); break
-                    case 4: stackView.push(identityPage); break
-                    case 5: stackView.push(databasePage); break
-                    case 6: stackView.push(simplelistviewPage); break
-                    case 7: stackView.push(listviewPage); break
+                onTabClicked: {
+                    stackLayout.currentIndex = index
                 }
             }
         }
-    }
 
-    Component {
-        id: tab1Content
-        DefaultPage {
-            color: "lightblue"
-            defaultPageText: "Content for Tab 1"
+
+        StackLayout {
+            id: stackLayout
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+
+            DefaultPage {
+                id: tab1Content
+                color: "lightblue"
+                defaultPageText: "Content for Tab 1"
+            }
+
+            DefaultPage {
+                id: tab2Content
+                color: "lightgreen"
+                defaultPageText: "Content for Tab 2"
+            }
+
+            DefaultPage {
+                id: tab3Content
+                color: "lightcoral"
+                defaultPageText: "Content for Tab 3"
+            }
+
+            DefaultPage {
+                id: tab4Content
+                color: "darkred"
+                defaultPageText: "Content for Tab 4"
+            }
+
+            IdentityPage {
+                id: identityPage
+            }
+
+            DatabasePage {
+                id: databasePage
+            }
+
+            SimpleListViewPage {
+                id: simplelistviewPage
+                itemList: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"]
+            }
+
+            ListViewPage {
+                id: listviewPage
+                model: listModel //  comes from C++ in main.cpp
+            }
+        }
+        ListModel {
+            id: listmodelID // This ont can't be currently used in ListViewPage as model. Not working.
         }
     }
-
-    Component {
-        id: tab2Content
-        DefaultPage {
-            color: "lightgreen"
-            defaultPageText: "Content for Tab 2"
-        }
-    }
-
-    Component {
-        id: tab3Content
-        DefaultPage {
-            color: "lightcoral"
-            defaultPageText: "Content for Tab 3"
-        }
-    }
-
-    Component {
-        id: tab4Content
-        DefaultPage {
-            color: "darkred"
-            // defaultPageText: "Content for Tab 4"
-        }
-    }
-
-    Component {
-        id: identityPage
-        IdentityPage {}
-        // Either use the line above or the Loader. TODO : learn the difference
-        // Loader {
-        //     source: "IdentityPage.qml"
-        // }
-    }
-
-    Component {
-        id: databasePage
-        DatabasePage {}
-    }
-
-    Component {
-        id: simplelistviewPage
-        SimpleListViewPage {
-            itemList: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"]
-        }
-    }
-
-    ListModel {
-        id: listmodelID
-    }
-
-    Component {
-        id: listviewPage
-        ListViewPage {
-            model: listModel
-            // itemList: listmodelID.items
-            // itemList: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"]
-        }
-    }
-
 }
 
